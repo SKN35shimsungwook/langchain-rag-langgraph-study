@@ -8,7 +8,12 @@ LangChain, RAG, LangGraph를 "용어 암기"가 아니라 "왜 생겼고, 시스
 |---|---|
 | 용어 정리 | 14개 섹션, 93개 용어를 풀어서 설명 · 용어 검색 · 코드 예시와 흐름도 · 비유표 · 헷갈리는 짝 |
 | 마인드맵 | 전체 마인드맵 1개 + 가지별 상세 마인드맵 5개 + 실행 흐름도 5개 (Mermaid) |
-| 4지선다 퀴즈 | 60문항 (LangChain·LCEL 11 / RAG 15 / LangGraph 기본 14 / LangGraph 심화 10 / Agent·응용 10) · 범위·문항 수 선택 · 보기 순서 섞기 · 즉시 채점과 해설 · 범위별 정답률 · 오답 노트 · 틀린 문제만 다시 풀기 |
+| 4지선다 퀴즈 | 60문항 (LangChain·LCEL 11 / RAG 15 / LangGraph 기본 14 / LangGraph 심화 10 / Agent·응용 10) · **한 문제씩** / **한 번에 풀기** 두 가지 방식 · 출제 대상(전체 / 내 오답노트 / 내 북마크)·범위·문항 수 선택 · 보기 순서 섞기 · 해설 · 범위별 정답률 · 북마크 · 틀린 문제만 다시 풀기 |
+| 오답노트 | 이름별로 틀린 문제가 자동 저장 · 범위 필터 · 틀린 횟수순 정렬 · 나만의 메모 · 오답만 다시 풀기 · **2번 연속 맞히면 자동 삭제** · 북마크 탭 |
+| 약점 통계 | 총 풀이 수·정답률 · 범위별 정답률 차트 · 가장 약한 범위 집중 풀기 · 자주 틀리는 문제 TOP 10 · 날짜별 풀이 추이 |
+
+사이드바에 이름을 입력하면 풀이 기록 · 오답노트 · 북마크가 이름별로 SQLite(`data/quiz.db`)에 저장돼요.
+Streamlit Community Cloud에서는 앱이 재시작되거나 재배포되면 이 파일이 초기화될 수 있어요.
 
 ## 실행
 
@@ -21,11 +26,15 @@ streamlit run streamlit_app.py
 
 ```
 langgraph_study/
-├── streamlit_app.py        # 진입점 (st.navigation으로 3개 페이지 연결)
+├── streamlit_app.py        # 진입점 (st.navigation으로 5개 페이지 연결 · 사이드바 이름 입력)
+├── db.py                   # 풀이 기록 · 오답노트 · 북마크 SQLite 저장
+├── quiz_state.py           # 사용자 이름 · 퀴즈 시작 도우미 (페이지 공용)
 ├── app_pages/
 │   ├── concepts.py         # 용어 정리
 │   ├── mindmap.py          # 마인드맵 · 흐름도
-│   └── quiz.py             # 4지선다 퀴즈
+│   ├── quiz.py             # 4지선다 퀴즈 (한 문제씩 / 한 번에 풀기)
+│   ├── notebook.py         # 오답노트 · 북마크
+│   └── stats.py            # 약점 통계
 ├── content/
 │   ├── terms.py            # 섹션별 용어 데이터
 │   ├── mindmaps.py         # Mermaid 마인드맵 · 흐름도 정의
@@ -38,6 +47,7 @@ langgraph_study/
 
 `content/questions.py`의 `QUESTIONS`에 `_q(범위, 질문, [정답, 오답1, 오답2, 오답3], 해설)`을 추가하면 돼요.
 보기 순서는 퀴즈를 시작할 때마다 섞이므로 정답은 항상 첫 번째에 적어요.
+풀이 기록은 질문 문장으로 만든 id로 저장되므로, 이미 있는 문제의 질문 문장을 고치면 그 문제의 기존 기록과 연결이 끊겨요.
 
 ## Streamlit Community Cloud 배포
 
