@@ -3,6 +3,7 @@
 
 choices의 첫 번째 보기가 정답이다. 앱에서 퀴즈를 시작할 때 보기 순서를 섞는다.
 """
+import hashlib
 
 CATEGORIES = ["LangChain · LCEL", "RAG", "LangGraph 기본", "LangGraph 심화", "Agent · 응용"]
 
@@ -336,3 +337,10 @@ QUESTIONS = [
 
 assert len(QUESTIONS) == 60, len(QUESTIONS)
 assert all(len(q["choices"]) == 4 for q in QUESTIONS)
+
+# 풀이 기록은 문제 id로 저장한다. 질문 문장에서 만들어서 문제 순서를 바꿔도 기록이 유지된다.
+for _item in QUESTIONS:
+    _item["id"] = hashlib.sha1(_item["q"].encode("utf-8")).hexdigest()[:10]
+
+BY_ID = {q["id"]: q for q in QUESTIONS}
+assert len(BY_ID) == len(QUESTIONS), "질문 문장이 중복됐어요"
