@@ -14,6 +14,7 @@ page = st.navigation(
         "공부하기": [
             st.Page("app_pages/concepts.py", title="용어 정리", icon=":material/menu_book:", default=True),
             st.Page("app_pages/mindmap.py", title="마인드맵", icon=":material/hub:"),
+            st.Page("app_pages/cards.py", title="개념 카드", icon=":material/style:"),
         ],
         "문제 풀기": [
             st.Page("app_pages/quiz.py", title="4지선다 퀴즈", icon=":material/quiz:"),
