@@ -2,6 +2,8 @@
 """LangChain · RAG · LangGraph 흐름 중심 학습 페이지 (용어 정리 + 마인드맵 + 4지선다 퀴즈 + 오답노트)."""
 import streamlit as st
 
+import keyboard_mode
+
 st.set_page_config(
     page_title="LangChain · RAG · LangGraph 정리",
     page_icon=":material/account_tree:",
@@ -35,5 +37,9 @@ with st.sidebar:
         help="이름별로 풀이 기록 · 오답노트 · 북마크가 따로 저장돼요. 같은 이름을 쓰면 기록을 함께 써요.",
     )
     st.caption("이름을 입력하면 틀린 문제가 오답노트에 자동으로 모여요.")
+    input_mode = st.segmented_control(
+        "입력 방식", ["마우스", "키보드"], default="마우스", key="input_mode", help=keyboard_mode.HELP
+    )
+    keyboard_mode.inject(input_mode == "키보드")
 
 page.run()
