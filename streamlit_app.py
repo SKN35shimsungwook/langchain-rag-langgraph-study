@@ -18,6 +18,7 @@ page = st.navigation(
         "문제 풀기": [
             st.Page("app_pages/quiz.py", title="4지선다 퀴즈", icon=":material/quiz:"),
             st.Page("app_pages/notebook.py", title="오답노트", icon=":material/edit_note:"),
+            st.Page("app_pages/stats.py", title="약점 통계", icon=":material/insights:"),
         ],
     },
     position="top",
