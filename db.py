@@ -34,6 +34,14 @@ CREATE TABLE IF NOT EXISTS wrong_notes (
     PRIMARY KEY (user, qid)
 );
 
+CREATE TABLE IF NOT EXISTS concept_wrongs (
+    user TEXT NOT NULL,
+    kind TEXT NOT NULL,
+    cid TEXT NOT NULL,
+    ts TEXT NOT NULL,
+    PRIMARY KEY (user, kind, cid)
+);
+
 CREATE TABLE IF NOT EXISTS bookmarks (
     user TEXT NOT NULL,
     qid TEXT NOT NULL,
@@ -120,6 +128,26 @@ def toggle_bookmark(user, qid):
         deleted = conn.execute("DELETE FROM bookmarks WHERE user = ? AND qid = ?", (user, qid)).rowcount
         if not deleted:
             conn.execute("INSERT INTO bookmarks (user, qid, ts) VALUES (?, ?, ?)", (user, qid, _now()))
+
+
+def mark_concept(user, kind, cid, correct):
+    """개념 카드(kind='card') · OX 퀴즈(kind='ox') 결과. 틀리면 오답 목록에 넣고, 맞히면 뺀다."""
+    with closing(_connect()) as conn, conn:
+        if correct:
+            conn.execute("DELETE FROM concept_wrongs WHERE user = ? AND kind = ? AND cid = ?", (user, kind, cid))
+        else:
+            conn.execute(
+                "INSERT OR REPLACE INTO concept_wrongs (user, kind, cid, ts) VALUES (?, ?, ?, ?)",
+                (user, kind, cid, _now()),
+            )
+
+
+def concept_wrongs(user, kind):
+    with closing(_connect()) as conn:
+        rows = conn.execute(
+            "SELECT cid FROM concept_wrongs WHERE user = ? AND kind = ? ORDER BY ts DESC", (user, kind)
+        ).fetchall()
+    return [r["cid"] for r in rows]
 
 
 def attempts(user):
