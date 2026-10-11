@@ -1,5 +1,7 @@
 # LangChain · RAG · LangGraph 흐름 중심 정리
 
+**🔗 바로 실행해 보기:** https://langchain-rag-langgraph-study-48adrhxs9lnphrl6e8buu8.streamlit.app
+
 LangChain, RAG, LangGraph를 "용어 암기"가 아니라 "왜 생겼고, 시스템 안에서 어디에 쓰이며, 어떻게 연결되는지" 중심으로 정리한 Streamlit 학습 페이지예요.
 
 ## 페이지 구성
