@@ -2,7 +2,8 @@
 
 **🔗 바로 실행해 보기:** https://langchain-rag-langgraph-study-48adrhxs9lnphrl6e8buu8.streamlit.app
 
-LangChain, RAG, LangGraph를 "용어 암기"가 아니라 "왜 생겼고, 시스템 안에서 어디에 쓰이며, 어떻게 연결되는지" 중심으로 정리한 Streamlit 학습 페이지예요.
+수업에서 LangChain, RAG, LangGraph를 배우는데 용어만 외우게 되고 서로 어떻게 이어지는지 머릿속에 그려지지 않았습니다.
+그래서 "왜 생겼고, 시스템 안에서 어디에 쓰이며, 어떻게 연결되는지" 중심으로 다시 정리해 Streamlit 학습 페이지로 만들었습니다.
 
 ## 페이지 구성
 
